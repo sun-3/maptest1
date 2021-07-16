@@ -27,4 +27,15 @@ public class TeacherServiceTest {
         Mockito.when(teacherDao.save(teacher)).thenReturn(teacher);
         Assertions.assertEquals(teacher,teacherService.addTeacher(teacher));
     }
+
+    @Test
+    public void getTeacherByIdTest(){
+        Teacher teacher = new Teacher();
+        teacher.setId(1L);
+        teacher.setName("sam");
+        teacher.setEmail("sam@email.com");
+
+        Mockito.when(teacherDao.findById(1L)).thenReturn(java.util.Optional.of(teacher));
+        Assertions.assertEquals(teacher,teacherService.getTeacher(1L));
+    }
 }
