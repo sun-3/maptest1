@@ -61,33 +61,6 @@ public class TeacherControllerTest {
         return objectMapper.writeValueAsString(object);
     }
 
-    @Test
-    public void addTeacherTest() throws Exception {
-        Teacher mockTeacher = new Teacher();
-        mockTeacher.setId(1L);
-        mockTeacher.setName("harsh");
-        mockTeacher.setEmail("hars@gmail.com");
-
-        String inputInJson = this.mapToJson(mockTeacher);
-
-        String URI = "/teachers/1";
-
-        Mockito.when(teacherService.addTeacher(Mockito.any(Teacher.class))).thenReturn(mockTeacher);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post(URI)
-                .accept(MediaType.APPLICATION_JSON).content(inputInJson).contentType(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputToJson = response.getContentAsString();
-
-        assertThat(outputToJson).isEqualTo(inputInJson);
-        assertEquals(HttpStatus.OK.value(),response.getStatus());
-        //Assertions.assertEquals(inputInJson,outputToJson);
-       // Assertions.assertEquals(HttpStatus.OK.value(),response.getStatus());
-    }
 }
 /*
 {"id":1,"name":"harsh","email":"hars@gmail.com"}
