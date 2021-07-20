@@ -12,9 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,7 +20,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = TeacherController.class)
@@ -55,40 +52,43 @@ public class TeacherControllerTest {
 
     }
     //Maps an Object into a string uses jackson objectmapper
-
-    private String mapToJson(Object object) throws JsonProcessingException{
+    private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
     }
-
+}
+/*
     @Test
-    public void addTeacherTest() throws Exception {
-        Teacher mockTeacher = new Teacher();
-        mockTeacher.setId(1L);
-        mockTeacher.setName("harsh");
-        mockTeacher.setEmail("hars@gmail.com");
+    public void getAllTeacherTest() throws Exception {
+        Teacher mockTeacher1 = new Teacher();
+        mockTeacher1.setId(1L);
+        mockTeacher1.setName("lg");
+        mockTeacher1.setEmail("lg@gmail.com");
 
-        String inputInJson = this.mapToJson(mockTeacher);
+        Teacher mockTeacher2 = new Teacher();
+        mockTeacher2.setId(2L);
+        mockTeacher2.setName("dam");
+        mockTeacher2.setEmail("dam@gmail.com");
 
-        String URI = "/teachers/1";
+        List<Teacher> teachersList = new ArrayList<>();
+        teachersList.add(mockTeacher1);
+        teachersList.add(mockTeacher2);
 
-        Mockito.when(teacherService.addTeacher(Mockito.any(Teacher.class))).thenReturn(mockTeacher);
+        Mockito.when(teacherService.getTeacher()).thenReturn(teachersList);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post(URI)
-                .accept(MediaType.APPLICATION_JSON).content(inputInJson).contentType(MediaType.APPLICATION_JSON);
+        String URI = "/teachers";
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
 
-        String outputToJson = response.getContentAsString();
+        String expectedJson = this.mapToJson(teachersList);
+        String outputJson = result.getResponse().getContentAsString();
+        assertThat(outputJson).isEqualTo(expectedJson);
 
-        assertThat(outputToJson).isEqualTo(inputInJson);
-        assertEquals(HttpStatus.OK.value(),response.getStatus());
-        //Assertions.assertEquals(inputInJson,outputToJson);
-       // Assertions.assertEquals(HttpStatus.OK.value(),response.getStatus());
     }
 }
+//}
 /*
 {"id":1,"name":"harsh","email":"hars@gmail.com"}
  */
