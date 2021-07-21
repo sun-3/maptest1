@@ -56,6 +56,7 @@ public class TeacherControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(object);
     }
+<<<<<<< HEAD
 }
 /*
     @Test
@@ -87,6 +88,9 @@ public class TeacherControllerTest {
         assertThat(outputJson).isEqualTo(expectedJson);
 
     }
+=======
+
+>>>>>>> github/master
 }
 //}
 /*
